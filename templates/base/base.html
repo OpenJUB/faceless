@@ -1,0 +1,45 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- CSS -->
+        <link href="{% static "css/style.css" %}" rel="stylesheet">
+
+        <title>Faceless - {% block page_title %}Base{% endblock %}</title>
+
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+
+    {% block header %}
+        <h1 id='title'>In Memory of the Faceless</h1>
+
+        {% block content %}
+        <div>
+            Are you a faceless person>?
+        </div>
+        {% endblock %}
+
+        {% block auth %}
+        {%if user.is_authenticated %}
+            <form action="{% url 'logout' %}" method="get">
+                <input type="submit" value="Logout {{user.username}}" />
+            </form>
+        {% else %}
+            <form action="{% url 'login' %}" method="get">
+                <input type="submit" value="Login" />
+            </form>
+        {% endif %}
+        {% endblock %}
+    {% endblock %}
+
+    <div class="footer">
+        &copy; Housing Team 2017
+    </div>
+    </body>
+</html>

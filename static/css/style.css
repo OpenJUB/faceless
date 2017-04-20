@@ -1,0 +1,56 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    text-align: center;
+}
+
+h1 {
+    font-weight: 500;
+    font-size: 40pt;
+}
+
+h2 {
+    font-weight: 500;
+    font-size: 30pt;
+    font-style: italic;
+    color: #DDDDDD;
+}
+
+div.people {
+    position: absolute;
+}
+
+div.footer {
+    position: fixed;
+    bottom: 10px;
+    width: 90vw;
+    left: 5vw;
+}
+
+span.active, span.passive {
+    position: absolute;
+    top: 0;
+
+    -webkit-transition: opacity 5s;
+    transition: opacity 5s;
+}
+
+span.active, span.passive, div.pusher {
+    display: block;
+    width: 90vw;
+    left: 5vw;
+    font-weight: 500;
+    font-size: 30pt;
+    color: gray;
+}
+
+span.active {
+    opacity: 1;
+}
+
+span.passive {
+    opacity: 0;
+}
+

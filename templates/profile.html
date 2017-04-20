@@ -1,0 +1,30 @@
+{% extends "base/base.html" %}
+
+{% block page_title %}Update profile{% endblock %}
+
+{% block content %}
+    <h2>Edit your profile</h2>
+
+
+    <div>
+        <p>
+            User wants to be faceless : {{ user.profile.faceless }}
+        </p>
+
+        <p>
+            {% if user.profile.image %}
+                <img src="{{ user.profile.image.url }}"/>
+            {% else %}
+                (Blank)
+            {% endif %}
+        </p>
+    </div>
+
+    <hr />
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Profile</button>
+    </form>
+{% endblock %}

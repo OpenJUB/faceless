@@ -1,0 +1,36 @@
+{% extends "base/base.html" %}
+
+{% load staticfiles %}
+
+{% block page_title %}Home{% endblock %}
+
+{% block head %}
+        <script type="text/javascript" src="{% static "js/faceless.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+    <h2>(People In The Yearbook)</h2>
+
+
+    <div class="people">
+        <span id='person1' class="person"></span>
+        <span id='person2' class="person"></span>
+    </div>
+
+    <div class="pusher">&nbsp;</div>
+
+    {%if user.is_authenticated %}
+        <h3>
+            To make sure you do not become a faceless, please update your
+            profile image. </h3>
+
+            <form action="{% url 'profile' %}" method="get">
+                <input type="submit" value="Go to Profile" />
+            </form>
+
+    {% else %}
+        <h3>To make sure you do not become a faceless, please start by
+            logging in. </h3>
+    {% endif %}
+
+{% endblock %}

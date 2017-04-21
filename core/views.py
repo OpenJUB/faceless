@@ -5,42 +5,59 @@ from django.shortcuts import render
 from users.models import UserProfile
 from .forms import ProfileUpdateForm
 
+import os
+
+from django.db import models
+from django.dispatch import receiver
+
 
 # Create your views here.
 def home(request):
     return render(request, "home.html")
 
-
-def clear_image(user):
-    if user.profile.image is not None:
-        user.profile.image.delete()
-
 @login_required
 def profile(request):
     the_profile, _ = UserProfile.objects.get_or_create(user=request.user)
 
-    if request.method == 'POST':
-        form = ProfileUpdateForm(request.POST, request.FILES)
-        if form.is_valid():
-            print('form', form.cleaned_data)
+    form = ProfileUpdateForm(request.POST or None, request.FILES or None, instance=the_profile)
 
-            # if the user wishes to be faceless, clear the image
-            if form.cleaned_data['faceless']:
-                the_profile.faceless = True
-                clear_image(request.user)
+    if form.is_valid():
+        profile = form.save(commit=False)
 
-            # else, check if we uploaded an image
-            else:
-                the_profile.faceless = False
-                image = form.cleaned_data['image']
-
-                # if so, we want to save it
-                if image:
-                    clear_image(request.user)
-                    request.user.profile.image.save(image.name, image)
-
-            the_profile.save()
-    else:
-        form = ProfileUpdateForm()
+        if profile.faceless:
+            profile.image = None
+        profile.save()
 
     return render(request, "profile.html", {'form' : form})
+
+
+# These two auto-delete files from filesystem when they are unneeded:
+@receiver(models.signals.post_delete, sender=UserProfile)
+def auto_delete_file_on_delete(sender, instance, **kwargs):
+    """Deletes file from filesystem
+    when corresponding `MediaFile` object is deleted.
+    """
+    if instance.image:
+        if os.path.isfile(instance.file.path):
+            os.remove(instance.file.path)
+
+@receiver(models.signals.pre_save, sender=UserProfile)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    """Deletes file from filesystem
+    when corresponding `MediaFile` object is changed.
+    """
+    if not instance.pk:
+        return False
+
+    try:
+        old_file = UserProfile.objects.get(pk=instance.pk).image
+    except UserProfile.DoesNotExist:
+        return False
+
+    new_file = instance.image
+    if not old_file == new_file:
+        try:
+            if os.path.isfile(old_file.path):
+                os.remove(old_file.path)
+        except ValueError:
+            return False

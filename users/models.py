@@ -18,6 +18,11 @@ class UserProfile(models.Model):
                               blank=True)
     faceless = models.BooleanField(default=False)
 
+    @property
+    def image_url(self):
+        if self.image and hasattr(self.image, 'url'):
+            return self.image.url
+
     def __str__(self):
         return u'[Profile] %s' % self.user.username
 

@@ -1,5 +1,4 @@
 from django.contrib.auth.decorators import login_required
-from django_cleanup import cleanup
 
 from django.shortcuts import render
 
@@ -15,7 +14,6 @@ def home(request):
 def clear_image(user):
     if user.profile.image is not None:
         user.profile.image.delete()
-        cleanup.refresh(user.profile)
 
 @login_required
 def profile(request):

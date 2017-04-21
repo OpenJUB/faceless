@@ -27,11 +27,12 @@
 
         {% block auth %}
         {%if user.is_authenticated %}
-            <form action="{% url 'logout' %}" method="get">
+            <form action="{% url 'account_logout' %}" method="post">
+                {% csrf_token %}
                 <input type="submit" value="Logout {{user.username}}" />
             </form>
         {% else %}
-            <form action="{% url 'login' %}" method="get">
+            <form action="/accounts/dreamjub/login" method="get">
                 <input type="submit" value="Login" />
             </form>
         {% endif %}

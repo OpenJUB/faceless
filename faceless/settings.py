@@ -25,10 +25,14 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'core',
     'users',
     'faceless',
-    'django_cleanup'
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dreamjub.providers.oauth'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -64,7 +68,10 @@ WSGI_APPLICATION = 'faceless.wsgi.application'
 
 # OpenJUB auth
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',
-                           'users.ojub_auth.OjubBackend')
+                           'allauth.account.auth_backends.AuthenticationBackend',)
+
+SITE_ID = 1
+ACCOUNT_EMAIL_VERIFICATION = "none"
 
 # Default after login redirect
 # These are named URL routes

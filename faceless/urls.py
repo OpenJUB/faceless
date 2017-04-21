@@ -30,12 +30,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
     # Authentication
-    url(r'^login/$', auth_views.login, {'template_name': 'auth/login.html'},
-        name="login"),
-    url(r'^logout/$', auth_views.logout,
-        {'template_name': 'auth/logout.html', 'next_page': 'home'},
-        name="logout"),
-
+    url(r'^accounts/', include('allauth.urls')),
 ]
 
 if settings.DEBUG:

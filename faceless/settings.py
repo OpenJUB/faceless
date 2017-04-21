@@ -32,7 +32,8 @@ INSTALLED_APPS = (
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'dreamjub.providers.oauth'
+    'dreamjub.providers.oauth',
+    'bootstrapform'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -75,8 +76,8 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 
 # Default after login redirect
 # These are named URL routes
-LOGIN_URL = "login"
-LOGOUT_URL = "logout"
+LOGIN_URL = "/accounts/dreamjub/login/"
+LOGOUT_URL = "account_logout"
 LOGIN_REDIRECT_URL = "profile"
 
 # Internationalization

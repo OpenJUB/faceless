@@ -10,6 +10,9 @@
         <!-- CSS -->
         <link href="{% static "css/style.css" %}" rel="stylesheet">
 
+        <link rel="stylesheet" href="{% static "bower/bootstrap/dist/css/bootstrap.min.css" %}">
+        <link rel="stylesheet" href="{% static "css/main.css" %}">
+
         <title>Faceless - {% block page_title %}Base{% endblock %}</title>
 
         {% block head %}{% endblock %}
@@ -17,7 +20,7 @@
     <body>
 
     {% block header %}
-        <h1 id='title'>In Memory of the Faceless</h1>
+        <h1 id='title'>{% block page_header %}In Memory of the Faceless{% endblock %}</h1>
 
         {% block content %}
         <div>
@@ -29,18 +32,23 @@
         {%if user.is_authenticated %}
             <form action="{% url 'account_logout' %}" method="post">
                 {% csrf_token %}
-                <input type="submit" value="Logout {{user.username}}" />
+                <input class="btn-sm btn" type="submit" value="Logout {{user.username}}" />
             </form>
         {% else %}
             <form action="/accounts/dreamjub/login" method="get">
-                <input type="submit" value="Login" />
+                <input class="btn-lg btn btn-primary" type="submit" value="Login" />
             </form>
         {% endif %}
         {% endblock %}
     {% endblock %}
 
     <div class="footer">
-        &copy; Housing Team 2017
+        &copy; <a href="http://kuboschek.me">Leonhard Kuboschek</a> &amp; <a href="http://tkw01536.de">Tom Wiesing</a> 2017
     </div>
+
+    <!-- jquery -->
+    <script src="{% static "bower/jquery/dist/jquery.min.js" %}"></script>
+    <!-- bootstrap -->
+    <script src="{% static "bower/bootstrap/dist/js/bootstrap.min.js" %}"></script>
     </body>
 </html>

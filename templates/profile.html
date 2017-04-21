@@ -1,30 +1,50 @@
 {% extends "base/base.html" %}
+{% load bootstrap %}
 
 {% block page_title %}Update profile{% endblock %}
+{% block page_header %}Edit{% endblock %}
 
 {% block content %}
-    <h2>Edit your profile</h2>
-
-
-    <div>
-        <p>
-            User wants to be faceless : {{ user.profile.faceless }}
-        </p>
-
-        <p>
-            {% if user.profile.image %}
-                <img src="{{ user.profile.image_url }}"/>
-            {% else %}
-                (Blank)
-            {% endif %}
-        </p>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 text-justify">
+                <h3>Content License</h3>
+                <p>When you upload, submit, store, send or receive content to or through our Services, you give
+                    Tom Wiesing and Leonhard Kuboschek
+                    (and those we work with) a worldwide, non-revocable license to use, host, store, reproduce, modify,
+                    create derivative
+                    works (such as those resulting from adaptations or other changes we make so that your
+                    content works better with our Services), communicate, publish, publicly perform, publicly display
+                    and distribute such content. The rights you grant in this license are for the limited purpose of
+                    publishing the yearbook, in print as well as through digital media. This license continues
+                    even if you stop using our Services.
+                </p>
+            </div>
+            <div class="col-md-6">
+                <h3>Update your picture</h3>
+                <form method="post" enctype="multipart/form-data" class="form-horizontal">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ form|bootstrap_horizontal }}
+                    </div>
+                    <div class="form-group">
+                      <div class="col-sm-8 col-sm-offset-2">
+                        <button type="submit" class="btn btn-lg btn-primary btn-block">I agree to Content License</button>
+                      </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-3">
+                <h3>Current Status</h3>
+                <p>
+                    {% if user.profile.faceless or not user.profile.image %}
+                    <b>Your picture will not be shown in the yearbook.</b>
+                    {% else %}
+                        This picture will <b>be shown</b> in the yearbook:
+                        <img class="img-responsive" src="{{ user.profile.image.url }}"/>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
     </div>
-
-    <hr />
-
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Update Profile</button>
-    </form>
 {% endblock %}

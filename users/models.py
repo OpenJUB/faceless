@@ -1,3 +1,5 @@
+import os
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -9,7 +11,7 @@ import json
 
 
 def upload_to(instance, filename):
-    return 'yearbook/{0}'.format(instance.user.username, filename)
+    return 'yearbook/{0}{1}'.format(instance.user.username, os.path.splitext(filename)[1])
 
 
 class UserProfile(models.Model):

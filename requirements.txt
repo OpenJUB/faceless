@@ -1,5 +1,5 @@
 # Django itself
-Django==1.9
+Django==1.11.28
 
 # dreamjub auth
 django-allauth==0.31.0
